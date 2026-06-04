@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="scroll-smooth">
+  <head>
+     <script>
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    <title><%= content_for(:title) || "Doable" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Doable">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition" data-controller="dark-mode">
+    <header class="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
+      <div class="mx-auto px-4 max-w-6xl flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <a href="/" class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">Doable</a>
+        </div>
+        <nav class="space-x-4">
+          <%= link_to "Projects", projects_path, class: "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" %>
+          <%= link_to "Todos", todos_path, class: "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100" %>
+        </nav>
+      </div>
+    </header>
+
+    <% if flash[:notice] %>
+      <div class="mx-auto px-4 max-w-4xl py-4">
+        <div class="bg-green-50 dark:bg-green-900 border-l-4 border-green-400 text-green-700 dark:text-green-200 p-3 rounded">
+          <p><%= flash[:notice] %></p>
+        </div>
+      </div>
+    <% end %>
+
+    <main class="mx-auto px-4 max-w-4xl py-8">
+      <%= yield %>
+    </main>
+
+    <!-- Dark Mode Toggle Button -->
+    <button data-action="dark-mode#toggle" class="fixed bottom-6 right-6 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded-full p-3 shadow-lg hover:shadow-xl transition z-50" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="w-5 h-5 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="13" r="5"/>
+        <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6m-16.78 7.78l4.24-4.24m5.08-5.08l4.24-4.24"/>
+      </svg>
+      <svg class="w-5 h-5 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+  </body>
+</html>
