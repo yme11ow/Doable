@@ -8,7 +8,7 @@ A simple, clean project and task management web application built with Ruby on R
 
 ## Ruby Version
 
-This application was built and tested with **Ruby 4.0.5**.
+This application was built and tested with **Ruby 3.4.4**.
 
 To check your Ruby version:
 
